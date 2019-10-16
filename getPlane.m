@@ -62,7 +62,7 @@ Clc = 0.01; %idk how to do this because dep. on velocity
 Cdc = Cd0 + (Clc^2/(pi*0.9*0.8)); %cruise Cd
 Cdmax = Cd0 + (Clmax^2/(pi*40*0.8));
 
-%prop shit
+%prop
 mu_bat = 0.023; %mass/cell
 eta = 0.4; %mechanical efficiency factor
 nom_volt = 3.7; %in volts; nominal voltage for lipos
