@@ -13,6 +13,7 @@ for mt = 1:0.5:5
                     if flyM2 == 0 || flyM3 == 0
                         continue
                     end
+                    fprintf('hello')
                     iter = iter + 1;
                     
                     total_score = M2 + M3;
@@ -29,15 +30,15 @@ for mt = 1:0.5:5
     end
 end
 
-idx = height(Q);
-[~,idx] = max(Q.M3);
-max_M3 = Q(idx,:)
-
-[~,idx] = max(Q.M2);
-max_M2 = Q(idx,:)
-
-[~,idx] = max(Q.total_score);
-max_total_score = Q(idx,:)
+% idx = height(Q);
+% [~,idx] = max(Q.M3);
+% max_M3 = Q(idx,:)
+% 
+% [~,idx] = max(Q.M2);
+% max_M2 = Q(idx,:)
+% 
+% [~,idx] = max(Q.total_score);
+% max_total_score = Q(idx,:)
 
 
 function [S, vcM2,vcM3, vt, lapsM2, lapsM3, flyM2,flyM3, M2, M3, peeps] = calculate_values(mt,b,P,T,xl)
@@ -65,14 +66,15 @@ Cdmax = Cd0 + (Clmax^2/(pi*40*0.8));
 %prop shit
 mu_bat = 0.023; %mass/cell
 eta = 0.4; %mechanical efficiency factor
-nom_volt = 3.7; %in volts; nominal voltage for lipos
+nom_vol = 1.2; %in volts; nominal voltage for lipos
 capacity = 5000; %battery capacity in mAh
-I_pack = (capacity*10^-3)/(10/60); %current draw of pack in Amps; 10/60 = mission time in hours
+I_pack = (capacity*10^-3)/(10/60); %current draw of pack in Amps (10/60
 %m_bat = 0.17803 ; %battery weight in kg; Venom Lipo
 %voltage = 9; %total battery voltage; Venom Lipo
 %I = 42; %current in amps; Venom Lipo
+% m_bat = (mu_bat*P)/(10.8*eff_motor); %battery mass
 m_mot = 0.3 ; %upper limit for motor weight in kg; fixed
-m_prop = m_mot + ((mu_bat*P)/(nom_volt*I_pack*eta)); %total propulsion system mass
+m_prop = m_mot + m_bat; %total propulsion system mass
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% takeoff same for M2 and M3 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
