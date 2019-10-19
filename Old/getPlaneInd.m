@@ -4,6 +4,11 @@
 Q = table;
 iter = 0; %iteration count
 
+function [SM2, vcM2, vtM2, lapsM2, flyM2, M2, peeps, SM3, vcM3, vtM3, lapsM3, flyM3, M3] = get_oneRun(mt,b,P,T,xl)
+    [SM2, vcM2, vtM2, lapsM2, flyM2, M2, peeps] = calculate_valuesM2(mt,b,P,T,xl);
+    [SM3, vcM3, vtM3, lapsM3, flyM3, M3] = calculate_valuesM3(mt,b,P,T,xl);
+end
+
 for mt = 1:0.5:3
     for b = 0.1:0.1:1.524
         for P = 300:20:600
