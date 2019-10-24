@@ -5,6 +5,7 @@ warning off;
 Q = table;
 iter = 0; %iteration count
 p = getConstants();
+foil = get_Airfoil('mh32_200000.txt', 'mh32_500000.txt');
 
 for mt = 1:0.5:3
     for b = 0.5:0.1:1.524
@@ -94,7 +95,6 @@ if (isnan(S))
     return;
 end
 
-
 A = sqrt(2*T/(Cd*rho*S));
 B  = sqrt((T*Cd*rho*S)/(2*mt^2));
 tk = (1/B)*acosh(exp(lt*(B/A))); %takeoff time
@@ -156,8 +156,9 @@ e = p.e; %Oswald spanwise efficiency
 rho = p.rho; %density in wichita kg/m^3
 g = p.g; %gravitational acceleration in m/s^2
 nu = p.nu; %load factor
-Clmax = p.Clmax; %max coefficient of lift
-Cd0 = p.Cd0; %zero lift coefficient of drag
+Clmax = foil.Clmax; %max coefficient of lift
+Cd0t = foil.Cd0t; %zero lift coefficient of drag at takeoff
+Cd0c = foil.Cd0c; %zero lift coefficient of drag at cruise
 lt = p.lt; %takeoff distance 20ft in m
 mu = p.mu; %dynamic viscosity of air; Wichita at averge 62deg F
 mu_roll = p.mu_roll; %rolling friction during taxi
@@ -166,8 +167,8 @@ vmax = p.vmax; % CHANGEmaximum airspeed in Wichita; used for banner Cf calculati
 
 %drag
 Clc = 0.01; %idk how to do this because dep. on velocity
-Cdc = Cd0 + (Clc^2/(pi*0.9*0.8)); %cruise Cd
-Cdmax = Cd0 + (Clmax^2/(pi*40*0.8));
+Cdc = Cd0c + (Clc^2/(pi*0.9*0.8)); %cruise Cd
+Cdmax = Cd0c + (Clmax^2/(pi*40*0.8)); %max Cd at cruise
 
 %prop
 mu_bat = p.mu_bat; %mass/cell
@@ -221,8 +222,8 @@ vsM3 = vtM3/f; %stall speed
 %(Cd0 + Cdb)*vc^4 - (2*P/(rho*S))*vc + ((4*m^2*g^2)/(rho^2*S*b^2*pi*e)) = 0
 %(Cd0 + Cdb)*vb^4 - (2*P/(rho*S))*vb + ((4*nu^2*m^2*g^2)/(rho^2*S*b^2*pi*e)) = 0
 %use numerical root finder
-vc_matM3 = [Cd0+Cdb 0 0 ((-2*P)/(rho*S)) ((4*mt^2*g^2)/(rho^2*S*b^2*pi*e))]; %what do we use for drag here?
-vb_matM3 = [Cd0+Cdb 0 0 ((-2*P)/(rho*S)) ((4*nu^2*mt^2*g^2)/(rho^2*S*b^2*pi*e))]; %what do we use for drag here?
+vc_matM3 = [Cd0c+Cdb 0 0 ((-2*P)/(rho*S)) ((4*mt^2*g^2)/(rho^2*S*b^2*pi*e))]; %what do we use for drag here?
+vb_matM3 = [Cd0c+Cdb 0 0 ((-2*P)/(rho*S)) ((4*nu^2*mt^2*g^2)/(rho^2*S*b^2*pi*e))]; %what do we use for drag here?
 
 rc = roots(vc_matM3);
 rb = roots(vb_matM3);
@@ -244,27 +245,72 @@ M3 = 2 + (lapsM3*xl)/(1.524*20); %M3 score, we want the highest value possible
 end
 
 function p = getConstants()
+    
+    p.e = 0.95; %Oswald spanwise efficiency
+    p.rho = 1.180; %density in wichita kg/m^3
+    p.g = 9.81; %gravitational acceleration in m/s^2
+    p.nu = 2; %load factor
+    p.lt = 6.096; %takeoff distance 20ft in m
+    p.mu = 17.97E-6; %dynamic viscosity of air; Wichita at averge 62deg F
+    p.mu_roll = 0.02; %rolling friction during taxi
+    p.f = 1.3; %factor of safety vt = fvs; otherwise, plane cannot takeoff
+    p.vmax = 14.67; % CHANGEmaximum airspeed in Wichita; used for banner Cf calculation;
 
-p.e = 0.95; %Oswald spanwise efficiency
-p.rho = 1.180; %density in wichita kg/m^3
-p.g = 9.81; %gravitational acceleration in m/s^2
-p.nu = 2; %load factor
-p.Clmax = 1.44; %max coefficient of lift
-p.Cd0 = 0.05; %zero lift coefficient of drag
-p.lt = 6.096; %takeoff distance 20ft in m
-p.mu = 17.97E-6; %dynamic viscosity of air; Wichita at averge 62deg F
-p.mu_roll = 0.02; %rolling friction during taxi
-p.f = 1.3; %factor of safety vt = fvs; otherwise, plane cannot takeoff
-p.vmax = 14.67; % CHANGEmaximum airspeed in Wichita; used for banner Cf calculation;
+    p.mu_bat = (0.490/4); %mass/cell for 4s battery %change to make dependent on how many no cells
+    p.eta = 0.4; %mechanical efficiency factor
+    p.nom_volt = 3.7; %in volts; nominal voltage for lipos
+    p.capacity = 5000; %battery capacity in mAh
+    p.I_pack = (p.capacity*10^-3)/(5/60); %current draw of pack in Amps; 10/60 = mission time in hours
+    %m_bat = 0.17803 ; %battery weight in kg; Venom Lipo
+    %voltage = 9; %total battery voltage; Venom Lipo
+    %I = 42; %current in amps; Venom Lipo
+    p.m_mot = 0.3 ; %upper limit for motor weight in kg; fixed
 
-p.mu_bat = 0.023; %mass/cell
-p.eta = 0.4; %mechanical efficiency factor
-p.nom_volt = 3.7; %in volts; nominal voltage for lipos
-p.capacity = 5000; %battery capacity in mAh
-p.I_pack = (p.capacity*10^-3)/(5/60); %current draw of pack in Amps; 10/60 = mission time in hours
-%m_bat = 0.17803 ; %battery weight in kg; Venom Lipo
-%voltage = 9; %total battery voltage; Venom Lipo
-%I = 42; %current in amps; Venom Lipo
-p.m_mot = 0.3 ; %upper limit for motor weight in kg; fixed
+end
+
+function foil = get_Airfoil(airofil_takeoff, airfoil_cruise)
+    
+    % Takeoff, Re = 200000
+    file = textread(airofil_takeoff, '%s', 'delimiter', '\n','whitespace', ' ');
+    i = 12; % Find where the data begins
+
+    % Store all results in arrays
+    alphas = []; CLs = []; CDs = []; CDps = [];
+    if(i ~= length(file) && ~isempty(file(i+1)))
+        j = i+1;
+        while (j<=length(file) && ~isempty(file(j)))
+            results = textscan(char(file(j)), '%f');
+            alphas(j-i) = results{1}(1);
+            CLs(j-i) = results{1}(2);
+            CDs(j-i) = results{1}(3);
+            CDps(j-i) = results{1}(4);
+            j = j+1;
+        end
+    end
+
+    cl0t=min(abs(clt)); % smallest cl in file (closest to zero lift)
+    foil.Cd0t=cdt(abs(clt)==cl0t); %zero lift coefficient of drag at takeoff; used to solve for vt
+    foil.Clmaxt = 0.9*max(clt); %2d wing maximum; max coefficient of lift at takeoff
+    
+    % Cruise, Re = 500000;
+    file = textread(airfoil_cruise, '%s', 'delimiter', '\n','whitespace', ' ');
+    i = 12; % Find where the data begins
+
+    % Store all results in arrays
+    alphas = []; CLs = []; CDs = []; CDps = [];
+    if(i ~= length(file) && ~isempty(file(i+1)))
+        j = i+1;
+        while (j<=length(file) && ~isempty(file(j)))
+            results = textscan(char(file(j)), '%f');
+            alphas(j-i) = results{1}(1);
+            CLs(j-i) = results{1}(2);
+            CDs(j-i) = results{1}(3);
+            CDps(j-i) = results{1}(4);
+            j = j+1;
+        end
+    end
+
+    cl0c=min(abs(cl)); % smallest cl in file (closest to zero lift)
+    foil.Cd0c = cd(abs(cl)==cl0c); %zero lift coefficient of drag at cruise; used to solve for vc and vb
 
 end
