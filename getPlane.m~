@@ -1,10 +1,9 @@
 %aerodynamics: input lt, tt, vs; iterate: mt, b<5, S, power, thrust, m_prop
 %output: banner length, vc, n laps
 %use the outputs for scoring
-tic
 warning off;
 Q = table;
-%iter = 0; %iteration count
+iter = 0; %iteration count
 global p foil
 p = getConstants();
 foil = get_Airfoil('mh32_200000.txt', 'mh32_500000.txt');
@@ -13,24 +12,25 @@ fprintf('loaded airfoil data');
 for mt = 1:0.5:3
     for b = 0.5:0.1:1.524
         for P = 300:20:600
-            for T = 25:5:50
-                for xl = 0.254:0.127:0.5%1.524 %banner length in m; minumum: 10 inches = 0.254m, max 5 feet?
+            for T = 20:5:50
+                for xl = 0.254:0.127:1.524 %banner length in m; minumum: 10 inches = 0.254m, max 5 feet?
 %                     fprintf('%f %f %f %f %f\n', mt, b, P, T, xl);
-                    try
-                        [SM2, vcM2, vtM2, lapsM2, flyM2, M2, peeps] = calculate_valuesM2(mt,b,P,T,xl);
-                        [SM3, vcM3, vtM3, lapsM3, flyM3, M3] = calculate_valuesM3(mt,b,P,T,xl);
-                    catch
-                        continue;
-                    end
+                    SM2 = 0; vcM2 = 0; vtM2 = 0; lapsM2 = 0; flyM2 = 0; flyM3 = 0; M2 = 0; M3 = 0; peeps = 0;
+                    %try
+                    [SM2, vcM2, vtM2, lapsM2, flyM2, M2, peeps] = calculate_valuesM2(mt,b,P,T,xl);
+                    [SM3, vcM3, vtM3, lapsM3, flyM3, M3] = calculate_valuesM3(mt,b,P,T,xl);
+                    %catch
+                        %continue;
+                    %end
                     if flyM2 == 0 || flyM3 == 0
                         continue
                     end
-                    %iter = iter + 1;
+                    iter = iter + 1;
                     
                     total_score = M2 + M3;
                     
                     %new = table(iter,mt,b,P,T, S, vcM2, vcM3, vt,xl,peeps, M2, M3, total_score);
-                    new = table(mt,b,P,T,SM2,SM3,vcM2,vtM2,lapsM2,xl,peeps,vcM3,vtM3,lapsM3,M2,M3,total_score);
+                    new = table(iter,mt,b,P,T,SM2,SM3, vcM2,vtM2,lapsM2,xl,peeps,vcM3,vtM3,lapsM3,M2,M3,total_score);
                     Q = [Q; new];
                     
                     %fprintf('iter = %.3f, mt = %.3f, b = %.3f, P = %.3f, T = %.3f, S = %.3f, vcM2 = %.3f, vcM3 = %.3f, vtM2 = %.3f, vtM3 = %.3f, xl = %.3f, peeps = %.3f, M2 = %.3f, M3 = %.3f \n', ...
@@ -51,8 +51,6 @@ max_M3 = Q(idx,:)
 
 [~,idx] = max(Q.total_score);
 max_total_score = Q(idx,:)
-
-toc
 
 
 function p = getConstants()
@@ -99,8 +97,8 @@ function foil = get_Airfoil(airofil_takeoff, airfoil_cruise)
         end
     end
 
-    Cl0t=min(abs(CLs)); % smallest cl in file (closest to zero lift)
-    foil.Cd0t=CDs(abs(CLs)==Cl0t); % Cd at zero lift; used for vt calculations
+    cl0t=min(abs(CLs)); % smallest cl in file (closest to zero lift)
+    foil.Cd0t=CDs(abs(CLs)==cl0t); % Cd at zero lift; used for vt calculations
     foil.Clmax = max(CLs); %2d wing maximum CL
     
     % Cruise, Re = 500000;
