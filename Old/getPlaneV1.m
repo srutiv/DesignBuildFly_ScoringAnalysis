@@ -10,29 +10,27 @@ p = getConstants();
 foil = get_Airfoil('mh32_200000.txt', 'mh32_500000.txt');
 fprintf('loaded airfoil data');
 
-iter = 0;
-for mt = 1:0.1:8 %don't really want to build a heavy-ass plane
-    for b = 0.5:1:1.524 %maximum wingspan 5ft
-        for P = 300:200:600 %range of values provided by Will; range limited by budget, safety, and our team's comfort and experience
-            for T = 25:30:50 %%range of values provided by Will
-                for xl = 0.254:0.1:1.524 %banner length in m; minumum: 10 inches = 0.254m, max 5 feet?
+for mt = 1:0.5:3
+    for b = 0.5:0.1:1.524
+        for P = 300:20:600
+            for T = 25:5:50
+                for xl = 0.254:0.127:0.5%1.524 %banner length in m; minumum: 10 inches = 0.254m, max 5 feet?
+%                     fprintf('%f %f %f %f %f\n', mt, b, P, T, xl);
                     try
-                        [SM2, vcM2, vtM2, lapsM2, flyM2, peeps, prod2,tt2, profileM2] = calculate_valuesM2(mt,b,P,T,xl);
-                        [SM3, vcM3, vtM3, lapsM3, flyM3, prod3, profileM3] = calculate_valuesM3(mt,b,P,T,xl);
+                        [SM2, vcM2, vtM2, lapsM2, flyM2, M2, peeps] = calculate_valuesM2(mt,b,P,T,xl);
+                        [SM3, vcM3, vtM3, lapsM3, flyM3, M3] = calculate_valuesM3(mt,b,P,T,xl);
                     catch
                         continue;
                     end
-                    
                     if flyM2 == 0 || flyM3 == 0
                         continue
                     end
+                    %iter = iter + 1;
                     
-                    iter = iter + 1;
-                    
-
+                    total_score = M2 + M3;
                     
                     %new = table(iter,mt,b,P,T, S, vcM2, vcM3, vt,xl,peeps, M2, M3, total_score);
-                    new = table(iter,mt,b,P,T,SM2,SM3,vcM2,vtM2,lapsM2,xl,peeps,vcM3,vtM3,lapsM3,tt2, prod2, prod3, profileM2, profileM3);
+                    new = table(mt,b,P,T,SM2,SM3,vcM2,vtM2,lapsM2,xl,peeps,vcM3,vtM3,lapsM3,M2,M3,total_score);
                     Q = [Q; new];
                     
                     %fprintf('iter = %.3f, mt = %.3f, b = %.3f, P = %.3f, T = %.3f, S = %.3f, vcM2 = %.3f, vcM3 = %.3f, vtM2 = %.3f, vtM3 = %.3f, xl = %.3f, peeps = %.3f, M2 = %.3f, M3 = %.3f \n', ...
@@ -45,52 +43,14 @@ for mt = 1:0.1:8 %don't really want to build a heavy-ass plane
 end
 
 idx = height(Q);
-[~,idx] = max(Q.prod2);
-max_M2 = Q(idx,:);
-max_M2 = max_M2(1,'prod2');
-max_M2 = table2array(max_M2);
+[~,idx] = max(Q.M2);
+max_M2 = Q(idx,:)
 
-[~,idx] = max(Q.prod3);
-max_M3 = Q(idx,:);
-max_M3 = max_M3(1,'prod3');
-max_M3 = table2array(max_M3);
+[~,idx] = max(Q.M3);
+max_M3 = Q(idx,:)
 
-A = table2cell(Q);
-[m,n] = size(A);
-NewCol = rand(m,1);
-%A = [A NewCol];
-
-for i = 1:m
-    num = A{i,12}; denom = A{i,16};
-    M2 = 1 + (num/denom)/max_M2; %(peeps/tt2)/max_M2;
-    num = A{i,15}; denom = A{i,11};
-    M3 = 2 + (num*denom)/max_M3; %(lapsM3*xl)/max_M3;
-    total_score = M2 + M3;
-    A{i,n+1} = total_score;
-end
-
-W = cell2table(A,'VariableNames',{'iter','mt','b','P','T','SM2', ...
-    'SM3','vcM2','vtM2','lapsM2','xl','peeps','vcM3','vtM3','lapsM3','tt2', 'prod2', 'prod3','profileM2', 'profileM3', 'total_score',});
-
-% [~,idx] = max(W.prod2);
-% max_prod2 = W(idx,:);
-% disp(max_prod2.profileM2)
-% disp(max_prod2.profileM3)
-% 
-% [~,idx] = max(W.prod3);
-% max_prod3 = W(idx,:);
-% disp(max_prod3.profileM2)
-% disp(max_prod3.profileM3)
-
-[~,idx] = max(W.total_score);
-max_total_score = W(idx,:);
-
-fprintf('plane that will give the highest total score is \n')
-fprintf('one with a M2 profile of:    \n')
-disp(max_total_score.profileM2)
-
-fprintf('and one with a M3 profile of:   \n')
-disp(max_total_score.profileM3)
+[~,idx] = max(Q.total_score);
+max_total_score = Q(idx,:)
 
 toc
 
@@ -107,7 +67,7 @@ function p = getConstants()
     p.f = 1.3; %factor of safety vt = fvs; otherwise, plane cannot takeoff
     p.vmax = 14.67; % CHANGEmaximum airspeed in Wichita; used for banner Cf calculation;
     p.mu_bat = (0.490/4); %mass/cell for 4s battery %change to make dependent on how many no cells
-    p.eta = 0.6; %mechanical efficiency factor
+    p.eta = 0.4; %mechanical efficiency factor
     p.nom_volt = 3.7; %in volts; nominal voltage for lipos
     p.capacity = 5000; %battery capacity in mAh
     p.I_pack = (p.capacity*10^-3)/(5/60); %current draw of pack in Amps; 10/60 = mission time in hours
