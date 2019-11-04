@@ -8,13 +8,13 @@ Q = table;
 global p foil
 p = getConstants();
 foil = get_Airfoil('mh32_200000.txt', 'mh32_500000.txt');
-fprintf('loaded airfoil data \n');
+fprintf('loaded airfoil data');
 
 iter = 0;
-for mt = 1:0.5:8 %don't really want to build a heavy-ass plane
-    for b = 0.5:0.1:1.524 %maximum wingspan = 5ft
-        for P = 300:100:600 %range of values provided by Will; range limited by budget, safety, and team's comfort and experience
-            for T = 25:5:50 %range of values provided by Will
+for mt = 1:0.1:8 %don't really want to build a heavy-ass plane
+    for b = 0.5:1:1.524 %maximum wingspan 5ft
+        for P = 300:200:600 %range of values provided by Will; range limited by budget, safety, and our team's comfort and experience
+            for T = 25:30:50 %%range of values provided by Will
                 for xl = 0.254:0.1:1.524 %banner length in m; minumum: 10 inches = 0.254m, max 5 feet?
                     try
                         [SM2, vcM2, vtM2, lapsM2, flyM2, peeps, prod2,tt2, profileM2] = calculate_valuesM2(mt,b,P,T,xl);
@@ -29,10 +29,14 @@ for mt = 1:0.5:8 %don't really want to build a heavy-ass plane
                     
                     iter = iter + 1;
                     
+
+                    
                     %new = table(iter,mt,b,P,T, S, vcM2, vcM3, vt,xl,peeps, M2, M3, total_score);
                     new = table(iter,mt,b,P,T,SM2,SM3,vcM2,vtM2,lapsM2,xl,peeps,vcM3,vtM3,lapsM3,tt2, prod2, prod3, profileM2, profileM3);
                     Q = [Q; new];
                     
+                    %fprintf('iter = %.3f, mt = %.3f, b = %.3f, P = %.3f, T = %.3f, S = %.3f, vcM2 = %.3f, vcM3 = %.3f, vtM2 = %.3f, vtM3 = %.3f, xl = %.3f, peeps = %.3f, M2 = %.3f, M3 = %.3f \n', ...
+                           %iter, mt, b, P, T, S, vc, vt, M3)
                        
                 end
             end
@@ -81,15 +85,12 @@ W = cell2table(A,'VariableNames',{'iter','mt','b','P','T','SM2', ...
 [~,idx] = max(W.total_score);
 max_total_score = W(idx,:);
 
-fprintf('plane that will give the highest total score is:   \n')
+fprintf('plane that will give the highest total score is \n')
 fprintf('one with a M2 profile of:    \n')
 disp(max_total_score.profileM2)
 
-fprintf('and one with a M3 profile of:    \n')
+fprintf('and one with a M3 profile of:   \n')
 disp(max_total_score.profileM3)
-
-
-ordered = sortrows(W,21,'descend');
 
 toc
 
@@ -102,7 +103,7 @@ function p = getConstants()
     p.nu = 2; %load factor
     p.lt = 6.096; %takeoff distance 20ft in m
     p.mu = 17.97E-6; %dynamic viscosity of air; Wichita at averge 62deg F
-    p.mu_roll = 0.2; %rolling friction during taxi
+    p.mu_roll = 0.02; %rolling friction during taxi
     p.f = 1.3; %factor of safety vt = fvs; otherwise, plane cannot takeoff
     p.vmax = 14.67; % CHANGEmaximum airspeed in Wichita; used for banner Cf calculation;
     p.mu_bat = (0.490/4); %mass/cell for 4s battery %change to make dependent on how many no cells
