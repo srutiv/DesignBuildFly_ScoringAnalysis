@@ -1,4 +1,4 @@
-function [SM3, vcM3, vtM3, lapsM3, flyM3, prod3, profileM3] = calculate_valuesM3(mt,b,P,T,xl, mStruct)
+function [SM3, vcM3, vtM3, lapsM3, flyM3, prod3, profileM3] = calculate_valuesM3(mt,b,P,T,xl)
 %constants/fixed parameters
 global p foil 
 
@@ -63,7 +63,8 @@ Cdb = (xl*xh)*Cf/S; %banner drag;
 
 
 %mo = 1.2*(-5.871+.8538*(S+.5976)+.03113*(S+13.12).^2); %poly fit for structural weight; input ft^2, output lb %mo = 0.454 * mo_imp; % structural weight; in kg
-mo = mStruct; %estimation of structural weight; need a better way to do this
+c = S/b;
+mo = getStructuralWeight(114,1050,b*1000,c*1000); %estimation of structural weight; need a better way to do this
 m_pay = (mt - m_prop - mo); %mass ALLOCATED for banner
 
 mt = mt - m_pay + m_banner; %redefine mt because no passengers for M3

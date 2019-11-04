@@ -1,4 +1,4 @@
-function [SM2, vcM2, vtM2, lapsM2, flyM2, peeps, prod2,tt, profileM2] = calculate_valuesM2(mt,b,P,T,xl);
+function [SM2, vcM2, vtM2, lapsM2, flyM2, peeps, prod2,tt, profileM2, mo] = calculate_valuesM2(mt,b,P,T,xl);
 %constants/fixed parameters
 global p foil
 
@@ -70,7 +70,8 @@ vsM2 = vtM2/f; %stall speed
 
 %payload
 %mo = 0.453592*(1.2*(-5.871+.8538*((S*10.764)+.5976)+.03113*(S+13.12).^2)); %poly fit for structural weight; input m^2, output kg; do we trust this
-mo = 0.3*mt; %estimation of structural weight; need a better way to do this
+c = S/b;
+mo = getStructuralWeight(114,1050,b*1000,c*1000); %estimation of structural weight; need a better way to do this
 m_pay = (mt - m_prop - mo); %mass ALLOCATED for banner and payload
 peeps = (m_pay)/0.141748; %number of sets of passenger + luggage; 0.141748 = 5 ounces
 

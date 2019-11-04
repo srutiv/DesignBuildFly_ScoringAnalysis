@@ -17,8 +17,8 @@ for mt = 1:0.5:8 %don't really want to build a heavy-ass plane
             for T = 25:5:50 %range of values provided by Will
                 for xl = 0.254:0.1:1.524 %banner length in m; minumum: 10 inches = 0.254m, max 5 feet?
                     try
-                        [SM2, vcM2, vtM2, lapsM2, flyM2, peeps, prod2,tt2, profileM2] = calculate_valuesM2(mt,b,P,T,xl);
-                        [SM3, vcM3, vtM3, lapsM3, flyM3, prod3, profileM3] = calculate_valuesM3(mt,b,P,T,xl);
+                        [SM2, vcM2, vtM2, lapsM2, flyM2, peeps, prod2,tt2, profileM2, mStruct] = calculate_valuesM2(mt,b,P,T,xl);
+                        [SM3, vcM3, vtM3, lapsM3, flyM3, prod3, profileM3] = calculate_valuesM3(mt,b,P,T,xl, mStruct);
                     catch
                         continue;
                     end
