@@ -1,4 +1,4 @@
-function [SM2, vcM2, vtM2, lapsM2, flyM2, peeps, prod2,tt, profileM2] = calculate_valuesM2(mt,b,P,T,xl);
+function [SM2, vcM2, vtM2, lapsM2, flyM2, peeps, prod2,tt, profileM2, mo] = calculate_valuesM2(mt,b,P,T,xl, S_sens);
 %constants/fixed parameters
 global p foil
 
@@ -13,7 +13,7 @@ mu_roll = p.mu_roll; %rolling friction during taxi
 f = p.f; %factor of safety vt = fvs; otherwise, plane cannot takeoff
 vmax = p.vmax; % CHANGE  maximum airspeed in Wichita; used for banner Cf calculation;
 
-%airfoil shit
+%airfoil
 Cd0c = foil.Cd0c; %zero lift coefficient of drag
 Cd0t = foil.Cd0t;
 Cl0c = foil.Cl0c;
@@ -33,13 +33,26 @@ m_prop = m_mot + ((mu_bat*P)/(nom_volt*I_pack*eta)); %total propulsion system ma
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% takeoff %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-S1 = @(Cd)(-mt./(lt*Cd*rho)).*log(1-((f^2*mt*g*Cd)/(Clmax*T)));
-S2 = @(Cd)(pi*b^2*e*(Cd - Cd0t)/Clmax^2);
-Cd = fzero(@(Cd) S1(Cd)-S2(Cd), 0.1, opt);
-S = S1(Cd);
-if (isnan(S))
-    return;
+if S_sens == 0 %regular run
+    S1 = @(Cd)(-mt./(lt*Cd*rho)).*log(1-((f^2*mt*g*Cd)/(Clmax*T)));
+    S2 = @(Cd)(pi*b^2*e*(Cd - Cd0t)/Clmax^2);
+    Cd = fzero(@(Cd) S1(Cd)-S2(Cd), 0.1, opt);
+    S = S1(Cd);
+    if (isnan(S))
+        return;
+    end
+else %sensitivity run; S_sense nonzero 0
+    %check
+    S1 = @(Cd)(-mt./(lt*Cd*rho)).*log(1-((f^2*mt*g*Cd)/(Clmax*T)));
+    S2 = @(Cd)(pi*b^2*e*(Cd - Cd0t)/Clmax^2);
+    Cd = fzero(@(Cd) S1(Cd)-S2(Cd), 0.1, opt);
+    S = S1(Cd);
+    if (isnan(S))
+        return;
+    end
+    S = S_sens;
 end
+
 
 % syms Cd S
 % eqns = [ Cd - Cd0t - Clmax^2/(pi*(b^2/S)*e) == 0, ...
@@ -70,7 +83,8 @@ vsM2 = vtM2/f; %stall speed
 
 %payload
 %mo = 0.453592*(1.2*(-5.871+.8538*((S*10.764)+.5976)+.03113*(S+13.12).^2)); %poly fit for structural weight; input m^2, output kg; do we trust this
-mo = 0.3*mt; %estimation of structural weight; need a better way to do this
+c = S/b;
+mo = getStructuralWeight(114,1050,b*1000,c*1000); %estimation of structural weight; need a better way to do this
 m_pay = (mt - m_prop - mo); %mass ALLOCATED for banner and payload
 peeps = (m_pay)/0.141748; %number of sets of passenger + luggage; 0.141748 = 5 ounces
 
@@ -96,25 +110,30 @@ peeps = (m_pay)/0.141748; %number of sets of passenger + luggage; 0.141748 = 5 o
 % v4 = double(max(abs(J)));
 
 
-S1 = @(Cd)(-mt./(lt*Cd*rho)).*log(1-((f^2*mt*g*Cd)/(Clmax*T)));
-S2 = @(Cd)(pi*b^2*e*(Cd - Cd0t)/Clmax^2);
-Cd = fzero(@(Cd) S1(Cd)-S2(Cd), 0.1, opt);
-S = S1(Cd);
-if (isnan(S))
+fun1 = @(vcM2) (0.5*rho*(vcM2^3)*S)*(Cd0c + (((2*mt*9.8/(S*rho*vcM2^2))^2)/(pi*e*(b^2/S)))) - P*eta; % function
+x0 = 10; % initial point; possibly change
+vcM2 = fzero(fun1,x0);
+if (isnan(vcM2))
     return;
 end
 
-g = @(vcM2) (0.5*rho*(vcM2^3)*S)*(Cd0c + (((2*mt*9.8/(S*rho*vcM2^2))^2)/(pi*e*(b^2/S)))) - P*eta;
 % syms vcM2
 % %eqns = T*vcM2 - P == 0, 
 % eqns = [(0.5*rho*(vcM2^3)*S)*(Cd0c + (((2*mt*9.8/(S*rho*vcM2^2))^2)/(pi*e*(b^2/S)))) - P*eta == 0];
 % J = solve(eqns, vcM2);)
 % vcM2 = double(max(abs(J)));
 
-syms vbM2 
-eqns = [(0.5*rho*(vbM2^3)*S)*(Cd0c + (((2*mt*9.8*nu/(S*rho*vbM2^2))^2)/(pi*e*(b^2/S)))) - P*eta == 0];
-K = solve(eqns, vbM2);
-vbM2 = double(max(abs(K)));
+fun2 = @(vbM2) (0.5*rho*(vbM2^3)*S)*(Cd0c + (((2*mt*9.8*nu/(S*rho*vbM2^2))^2)/(pi*e*(b^2/S)))) - P*eta; % function
+x0 = 10; % initial point; possibly change
+vbM2 = fzero(fun2,x0);
+if (isnan(vbM2))
+    return;
+end
+
+% syms vbM2 
+% eqns = [(0.5*rho*(vbM2^3)*S)*(Cd0c + (((2*mt*9.8*nu/(S*rho*vbM2^2))^2)/(pi*e*(b^2/S)))) - P*eta == 0];
+% K = solve(eqns, vbM2);
+% vbM2 = double(max(abs(K)));
 
 tlM2 = (2000/vcM2) + ((2*pi*mt)/(Clmax*rho*5*vbM2)); %lap time function of power, total mass
 lapsM2 = ceil(300/tlM2); %actual number laps the plane can take in 5 minutes; optimal plane x=N
@@ -138,7 +157,7 @@ profileM2.mt2 = mt;
 profileM2.b2 = b;
 profileM2.P2 = P;
 profileM2.T2 = T;
-profileM2.xl2 = xl;
+profileM2.xl2 = 0;
 
 profileM2.S2 = S;
 profileM2.AR2 = AR;

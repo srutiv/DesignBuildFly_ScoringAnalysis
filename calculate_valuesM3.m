@@ -1,4 +1,4 @@
-function [SM3, vcM3, vtM3, lapsM3, flyM3, prod3, profileM3] = calculate_valuesM3(mt,b,P,T,xl, mStruct)
+function [SM3, vcM3, vtM3, lapsM3, flyM3, prod3, profileM3] = calculate_valuesM3(mt,b,P,T,xl, mStruct, S_sens)
 %constants/fixed parameters
 global p foil 
 
@@ -12,6 +12,7 @@ mu = p.mu; %dynamic viscosity of air; Wichita at averge 62deg F
 mu_roll = p.mu_roll; %rolling friction during taxi
 f = p.f; %factor of safety vt = fvs; otherwise, plane cannot takeoff
 vmax = p.vmax; % CHANGE  maximum airspeed in Wichita; used for banner Cf calculation;
+fos = p.fos; %factor of safety for area and thrust
 
 %airfoil
 Cd0c = foil.Cd0c; %zero lift coefficient of drag
@@ -33,12 +34,22 @@ m_prop = m_mot + ((mu_bat*P)/(nom_volt*I_pack*eta)); %total propulsion system ma
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% takeoff
-S1 = @(Cd)(-mt./(lt*Cd*rho)).*log(1-((f^2*mt*g*Cd)/(Clmax*T)));
-S2 = @(Cd)(pi*b^2*e*(Cd - Cd0t)/Clmax^2);
-Cd = fzero(@(Cd) S1(Cd)-S2(Cd), 0.1, opt);
-S = S1(Cd);
-if (isnan(S))
-    return;
+if S_sens == 0 %regular run
+    S1 = @(Cd)(-mt./(lt*Cd*rho)).*log(1-((f^2*mt*g*Cd)/(Clmax*T)));
+    S2 = @(Cd)(pi*b^2*e*(Cd - Cd0t)/Clmax^2);
+    Cd = fzero(@(Cd) S1(Cd)-S2(Cd), 0.1, opt);
+    S = S1(Cd);
+    if (isnan(S))
+        return;
+    end
+else %sensitivity run; S_sense nonzero 0
+    S1 = @(Cd)(-mt./(lt*Cd*rho)).*log(1-((f^2*mt*g*Cd)/(Clmax*T)));
+    S2 = @(Cd)(pi*b^2*e*(Cd - Cd0t)/Clmax^2);
+    Cd = fzero(@(Cd) S1(Cd)-S2(Cd), 0.1, opt);
+    S = S_sens;
+    if (isnan(S))
+        return;
+    end
 end
 
 % syms Cd S
