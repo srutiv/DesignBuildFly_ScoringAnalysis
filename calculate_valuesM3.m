@@ -30,7 +30,7 @@ I_pack = p.I_pack; %current draw of pack in Amps; 10/60 = mission time in hours
 %voltage = 9; %total battery voltage; Venom Lipo
 %I = 42; %current in amps; Venom Lipo
 m_mot = p.m_mot; %upper limit for motor weight in kg; fixed
-m_prop = m_mot + ((mu_bat*P)/(nom_volt*I_pack*eta)); %total propulsion system mass
+m_prop = 1.2*(m_mot + 1.560); %((mu_bat*P)/(nom_volt*I_pack*eta)); %total propulsion system mass
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% takeoff
@@ -70,7 +70,7 @@ xh = xl/5; %banner must have minimum aspect ratio of 5
 t = 0.0035; %thickness of banner; used 1/8" ribbon
 rho_banner = 1540; %density of cotton ribbon; in kg/m^3
 m_banner = xl*xh*t*rho_banner; %mass of banner
-Cdb = (xl*xh)*Cf/S; %banner drag; 
+Cdb = 4*(xl*xh)*Cf/S; %banner drag; 
 
 
 %mo = 1.2*(-5.871+.8538*(S+.5976)+.03113*(S+13.12).^2); %poly fit for structural weight; input ft^2, output lb %mo = 0.454 * mo_imp; % structural weight; in kg

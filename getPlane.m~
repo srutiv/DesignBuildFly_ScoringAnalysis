@@ -11,10 +11,10 @@ foil = get_Airfoil('mh32_200000.txt', 'mh32_500000.txt');
 fprintf('loaded airfoil data \n');
 
 iter = 0;
-for mt = 1:0.5:8 %don't really want to build a heavy-ass plane
+for mt = 1:0.5:3 %8 %don't really want to build a heavy-ass plane
     for b = 0.5:0.1:1.524 %maximum wingspan = 5ft
-        for P = 300:100:600 %range of values provided by Will; range limited by budget, safety, and team's comfort and experience
-            for T = 25:5:50 %range of values provided by Will
+        for P = 1000 %300:100:600 %range of values provided by Will; range limited by budget, safety, and team's comfort and experience
+            for T = 50 %25:5:50 %range of values provided by Will
                 for xl = 0.254:0.1:1.524 %banner length in m; minumum: 10 inches = 0.254m, max 5 feet?
                     try
                         [SM2, vcM2, vtM2, lapsM2, flyM2, peeps, prod2,tt2, profileM2, mStruct] = calculate_valuesM2(mt,b,P,T,xl,0);
@@ -103,7 +103,7 @@ fprintf('generated all flyable configurations in design space \n')
 
 fprintf('beginning sensitivity analysis \n')
 
-num = 100; %number of configurations to do sensitivity analysis on
+num = 5; %number of configurations to do sensitivity analysis on
 sensitivities = table;
 
 for i = 1:num
@@ -139,16 +139,16 @@ function p = getConstants()
     p.mu_roll = 0.2; %rolling friction during taxi
     p.f = 1.3; %factor of safety vt = fvs; otherwise, plane cannot takeoff
     p.vmax = 14.67; % CHANGEmaximum airspeed in Wichita; used for banner Cf calculation;
-    p.mu_bat = (0.490/4); %mass/cell for 4s battery %change to make dependent on how many no cells
+    p.mu_bat = (1.560/6); %mass/cell for 4s battery %change to make dependent on how many no cells
     p.eta = 0.6; %mechanical efficiency factor
     p.nom_volt = 3.7; %in volts; nominal voltage for lipos
-    p.capacity = 5000; %battery capacity in mAh
+    p.capacity = 12000; %battery capacity in mAh
     p.I_pack = (p.capacity*10^-3)/(5/60); %current draw of pack in Amps; 10/60 = mission time in hours
-    fos = p.fos; %factor of safety for area and thrust
+    p.fos = 1.2; %factor of safety for area and thrust
     %m_bat = 0.17803 ; %battery weight in kg; Venom Lipo
     %voltage = 9; %total battery voltage; Venom Lipo
     %I = 42; %current in amps; Venom Lipo
-    p.m_mot = 0.3 ; %upper limit for motor weight in kg; fixed
+    p.m_mot = 0.4 ; %upper limit for motor weight in kg; fixed
 
 end
 
