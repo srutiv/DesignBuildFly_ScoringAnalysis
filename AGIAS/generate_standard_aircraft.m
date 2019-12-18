@@ -1,4 +1,8 @@
 function aircraft=generate_standard_aircraft(plane_name)
+% generate standard aircraft takes in a string, which is to be the
+% aircraft's name, and generates an Aircraft object with properties that
+% are a normal distribution about a pre-determined mean aircraft
+
 %% determine wing values 
 aileron=Surface(.75,-1,.1,.9,'aileron');
 b=normrnd(1,.125)*10;
@@ -11,7 +15,7 @@ surfaces=[aileron];
 coord=[0 0 0];
 name='wing';
 
-wing=Main_Wing(b,S,taper,sweep,airfoil,dihedral,surfaces,coord,name);
+wing=Main_Wing(b,S,taper,sweep,airfoil,airfoil,dihedral,surfaces,coord,name)
 
 %% Horizontal Tail
 elevator=Surface(.75,1,.1,.9,'elevator');
@@ -45,11 +49,13 @@ CG=[Swing/bwing*.5 0 0];
 IXX=bwing^2*M;
 IYY=htail.coord(1)^2*M+croot^2*M;
 IZZ=IXX+IYY;
-
-
-aircraft=Aircraft(wing,htail,vtail,[],CG,M,[IXX IYY IZZ],plane_name);
-
-
-
+%% initialize test parameters 
+param.d=1.225;
+param.v=10;
+param.g=9.6;
+param.use_alpha=0;
+param.alpha=0;
+param.beta=0;
+aircraft=Aircraft([wing,wing],htail,vtail,[],CG,M,[IXX IYY IZZ],plane_name,param);
 
 end

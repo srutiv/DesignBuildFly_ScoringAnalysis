@@ -1,0 +1,117 @@
+aircraft 
+#Mach 
+0.0 
+#IYsym IZsym Zsym 
+0 0 0 
+#Sref Cref Bref 
+8.325191 0.768879 11.797975 
+#Xref Yref Zref 
+0.352823 0.000000 0.000000 
+#========================================== 
+SURFACE 
+wing 
+#Nchordwise Cspace Nspanwise Sspace 
+12 1.0 16 1.0 
+# 
+YDUPLICATE 
+0.0 
+TRANSLATE
+0.000000 0.000000 0.000000
+ANGLE 
+0.0 
+#------------------------------------------ 
+SECTION 
+#Xle Yle Zle Chord Ainc Nspanwise Sspace 
+0.000000 0.000000 0.000000 1.071515 0.0 0 0 
+AFILE 
+mh114.dat 
+#------------------------------------------ 
+SECTION 
+#Xle Yle Zle Chord Ainc Nspanwise Sspace 
+0.249235 0.589899 0.003192 0.998341 0.0 0 0 
+AFILE 
+mh114.dat 
+#Cname Cgain Xhinge HingeVec   SgnDup
+CONTROL 
+aileron 1 0.750000 0.0 0.0 0.0 -1.000000
+#------------------------------------------ 
+SECTION 
+#Xle Yle Zle Chord Ainc Nspanwise Sspace 
+2.243112 5.309089 0.028726 0.412951 0.0 0 0 
+AFILE 
+mh114.dat 
+#Cname Cgain Xhinge HingeVec   SgnDup
+CONTROL 
+aileron 1 0.750000 0.0 0.0 0.0 -1.000000
+#------------------------------------------ 
+SECTION 
+#Xle Yle Zle Chord Ainc Nspanwise Sspace 
+2.492347 5.898988 0.031918 0.339777 0.0 0 0 
+AFILE 
+mh114.dat 
+#========================================== 
+SURFACE 
+htail 
+#Nchordwise Cspace Nspanwise Sspace 
+12 1.0 16 1.0 
+# 
+YDUPLICATE 
+0.0 
+TRANSLATE
+2.134979 0.000000 0.000000
+ANGLE 
+0.0 
+#------------------------------------------ 
+SECTION 
+#Xle Yle Zle Chord Ainc Nspanwise Sspace 
+0.000000 0.000000 0.000000 0.556423 0.0 0 0 
+#------------------------------------------ 
+SECTION 
+#Xle Yle Zle Chord Ainc Nspanwise Sspace 
+0.145579 0.197444 0.005795 0.543376 0.0 0 0 
+#Cname Cgain Xhinge HingeVec   SgnDup
+CONTROL 
+elevator 1 0.750000 0.0 0.0 0.0 1.000000
+#------------------------------------------ 
+SECTION 
+#Xle Yle Zle Chord Ainc Nspanwise Sspace 
+1.310211 1.776995 0.052154 0.438998 0.0 0 0 
+#Cname Cgain Xhinge HingeVec   SgnDup
+CONTROL 
+elevator 1 0.750000 0.0 0.0 0.0 1.000000
+#------------------------------------------ 
+SECTION 
+#Xle Yle Zle Chord Ainc Nspanwise Sspace 
+1.455790 1.974439 0.057949 0.425951 0.0 0 0 
+#========================================== 
+SURFACE 
+vtail 
+#Nchordwise Cspace Nspanwise Sspace 
+12 1.0 16 1.0 
+TRANSLATE
+2.134979 0.000000 0.000000
+YDUPLICATE 
+0.0 
+#------------------------------------------ 
+SECTION 
+#Xle Yle Zle Chord Ainc Nspanwise Sspace 
+0.000000 0.000000 0.000000 0.644191 0.0 0 0 
+#------------------------------------------ 
+SECTION 
+#Xle Yle Zle Chord Ainc Nspanwise Sspace 
+0.045714 0.000000 0.146909 0.625469 0.0 0 0 
+#Cname Cgain Xhinge HingeVec   SgnDup
+CONTROL 
+rudder 1 0.750000 0.0 0.0 0.0 1.000000
+#------------------------------------------ 
+SECTION 
+#Xle Yle Zle Chord Ainc Nspanwise Sspace 
+0.411427 0.000000 1.322177 0.475689 0.0 0 0 
+#Cname Cgain Xhinge HingeVec   SgnDup
+CONTROL 
+rudder 1 0.750000 0.0 0.0 0.0 1.000000
+#------------------------------------------ 
+SECTION 
+#Xle Yle Zle Chord Ainc Nspanwise Sspace 
+0.457142 0.000000 1.469085 0.456967 0.0 0 0 
+#========================================== 
