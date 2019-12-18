@@ -1,0 +1,27 @@
+LOAD .\AVL_FILES\aircraft.avl
+MASS .\AVL_FILES\aircraft.mass
+MSET
+0
+PLOP
+g
+
+OPER
+c1
+G 9.81
+D 1.225
+v 20.0000
+b 0
+
+a a 2
+x
+st
+.\AVL_DATA\aircraft_Data.st
+sb
+.\AVL_DATA\aircraft_Data.sb
+
+MODE
+n
+w
+.\AVL_DATA\aircraft_Data.eig
+
+Quit

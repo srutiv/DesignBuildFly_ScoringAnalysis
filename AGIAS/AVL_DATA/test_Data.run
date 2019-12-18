@@ -1,0 +1,24 @@
+LOAD .\AVL_FILES\test.avl
+MASS .\AVL_FILES\test.mass
+MSET
+0
+PLOP
+g
+
+OPER
+c1
+V 20.000
+B 0.000
+
+x
+st
+.\AVL_DATA\test_Data.st
+sb
+.\AVL_DATA\test_Data.sb
+
+MODE
+n
+w
+.\AVL_DATA\test_Data.eig
+
+Quit

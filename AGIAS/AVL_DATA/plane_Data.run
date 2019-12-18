@@ -1,0 +1,24 @@
+LOAD .\AVL_FILES\plane.avl
+MASS .\AVL_FILES\plane.mass
+MSET
+0
+PLOP
+g
+
+OPER
+c1
+V 10.000
+B 0.000
+
+x
+st
+.\AVL_DATA\plane_Data.st
+sb
+.\AVL_DATA\plane_Data.sb
+
+MODE
+n
+w
+.\AVL_DATA\plane_Data.eig
+
+Quit

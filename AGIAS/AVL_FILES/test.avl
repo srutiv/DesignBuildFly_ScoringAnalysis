@@ -1,0 +1,159 @@
+test 
+#Mach 
+0.0 
+#IYsym IZsym Zsym 
+0 0 0 
+#Sref Cref Bref 
+19.667770 1.105773 21.344168 
+#Xref Yref Zref 
+0.460729 0.000000 0.000000 
+#========================================== 
+SURFACE 
+wing 
+#Nchordwise Cspace Nspanwise Sspace 
+12 1.0 16 1.0 
+# 
+YDUPLICATE 
+0.0 
+TRANSLATE
+0.000000 0.000000 0.000000
+ANGLE 
+0.0 
+#------------------------------------------ 
+SECTION 
+#Xle Yle Zle Chord Ainc Nspanwise Sspace 
+0.000000 0.000000 0.000000 1.635261 0.0 0 0 
+AFILE 
+mh114.dat 
+#------------------------------------------ 
+SECTION 
+#Xle Yle Zle Chord Ainc Nspanwise Sspace 
+0.235738 0.533604 0.052916 1.492500 0.0 0 0 
+AFILE 
+mh114.dat 
+#Cname Cgain Xhinge HingeVec   SgnDup
+CONTROL 
+aileron 1 0.750000 0.0 0.0 0.0 -1.000000
+#------------------------------------------ 
+SECTION 
+#Xle Yle Zle Chord Ainc Nspanwise Sspace 
+2.121639 4.802438 0.476246 0.350417 0.0 0 0 
+AFILE 
+mh114.dat 
+#Cname Cgain Xhinge HingeVec   SgnDup
+CONTROL 
+aileron 1 0.750000 0.0 0.0 0.0 -1.000000
+#------------------------------------------ 
+SECTION 
+#Xle Yle Zle Chord Ainc Nspanwise Sspace 
+2.357376 5.336042 0.529162 0.207657 0.0 0 0 
+AFILE 
+mh114.dat 
+#========================================== 
+SURFACE 
+wing 
+#Nchordwise Cspace Nspanwise Sspace 
+12 1.0 16 1.0 
+# 
+YDUPLICATE 
+0.0 
+TRANSLATE
+0.000000 0.000000 0.000000
+ANGLE 
+0.0 
+#------------------------------------------ 
+SECTION 
+#Xle Yle Zle Chord Ainc Nspanwise Sspace 
+0.000000 0.000000 0.000000 1.635261 0.0 0 0 
+AFILE 
+mh114.dat 
+#------------------------------------------ 
+SECTION 
+#Xle Yle Zle Chord Ainc Nspanwise Sspace 
+0.235738 0.533604 0.052916 1.492500 0.0 0 0 
+AFILE 
+mh114.dat 
+#Cname Cgain Xhinge HingeVec   SgnDup
+CONTROL 
+aileron 1 0.750000 0.0 0.0 0.0 -1.000000
+#------------------------------------------ 
+SECTION 
+#Xle Yle Zle Chord Ainc Nspanwise Sspace 
+2.121639 4.802438 0.476246 0.350417 0.0 0 0 
+AFILE 
+mh114.dat 
+#Cname Cgain Xhinge HingeVec   SgnDup
+CONTROL 
+aileron 1 0.750000 0.0 0.0 0.0 -1.000000
+#------------------------------------------ 
+SECTION 
+#Xle Yle Zle Chord Ainc Nspanwise Sspace 
+2.357376 5.336042 0.529162 0.207657 0.0 0 0 
+AFILE 
+mh114.dat 
+#========================================== 
+SURFACE 
+htail 
+#Nchordwise Cspace Nspanwise Sspace 
+12 1.0 16 1.0 
+# 
+YDUPLICATE 
+0.0 
+TRANSLATE
+2.718667 0.000000 0.000000
+ANGLE 
+0.0 
+#------------------------------------------ 
+SECTION 
+#Xle Yle Zle Chord Ainc Nspanwise Sspace 
+0.000000 0.000000 0.000000 0.730898 0.0 0 0 
+#------------------------------------------ 
+SECTION 
+#Xle Yle Zle Chord Ainc Nspanwise Sspace 
+0.164777 0.167308 0.025261 0.697779 0.0 0 0 
+#Cname Cgain Xhinge HingeVec   SgnDup
+CONTROL 
+elevator 1 0.750000 0.0 0.0 0.0 1.000000
+#------------------------------------------ 
+SECTION 
+#Xle Yle Zle Chord Ainc Nspanwise Sspace 
+1.482990 1.505770 0.227348 0.432833 0.0 0 0 
+#Cname Cgain Xhinge HingeVec   SgnDup
+CONTROL 
+elevator 1 0.750000 0.0 0.0 0.0 1.000000
+#------------------------------------------ 
+SECTION 
+#Xle Yle Zle Chord Ainc Nspanwise Sspace 
+1.647767 1.673078 0.252609 0.399714 0.0 0 0 
+#========================================== 
+SURFACE 
+vtail 
+#Nchordwise Cspace Nspanwise Sspace 
+12 1.0 16 1.0 
+TRANSLATE
+2.718667 0.000000 0.000000
+YDUPLICATE 
+0.0 
+#------------------------------------------ 
+SECTION 
+#Xle Yle Zle Chord Ainc Nspanwise Sspace 
+0.000000 0.000000 0.000000 1.064658 0.0 0 0 
+#------------------------------------------ 
+SECTION 
+#Xle Yle Zle Chord Ainc Nspanwise Sspace 
+0.074524 0.000000 0.206905 1.009868 0.0 0 0 
+#Cname Cgain Xhinge HingeVec   SgnDup
+CONTROL 
+rudder 1 0.750000 0.0 0.0 0.0 1.000000
+#------------------------------------------ 
+SECTION 
+#Xle Yle Zle Chord Ainc Nspanwise Sspace 
+0.670713 0.000000 1.862143 0.571549 0.0 0 0 
+#Cname Cgain Xhinge HingeVec   SgnDup
+CONTROL 
+rudder 1 0.750000 0.0 0.0 0.0 1.000000
+#------------------------------------------ 
+SECTION 
+#Xle Yle Zle Chord Ainc Nspanwise Sspace 
+0.745237 0.000000 2.069048 0.516759 0.0 0 0 
+#========================================== 
