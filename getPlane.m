@@ -13,8 +13,8 @@ fprintf('loaded airfoil data \n');
 iter = 0;
 for mt = 1:0.5:8 %don't really want to build a heavy-ass plane
     for b = 0.5:0.1:1.524 %maximum wingspan = 5ft
-        for P = 1000 %300:100:15000 %range of values provided by Will; range limited by budget, safety, and team's comfort and experience
-            for T = 50 %25:5:70 %range of values provided by Will
+        for P = 600 %300:100:2500 %range of values provided by Will; range limited by budget, safety, and team's comfort and experience
+            for T = 30 %25:5:70 %range of values provided by Will
                 for xl = 0.254:0.1:1.524 %banner length in m; minumum: 10 inches = 0.254m, max 5 feet?
                     try
                         [SM2, vcM2, vtM2, lapsM2, flyM2, peeps, prod2,tt2, profileM2, mStruct] = calculate_valuesM2(mt,b,P,T,xl,0);
@@ -103,7 +103,7 @@ fprintf('generated all flyable configurations in design space \n')
 
 fprintf('beginning sensitivity analysis \n')
 
-num = 54; %number of configurations to do sensitivity analysis on
+num = height(A); %number of configurations to do sensitivity analysis on
 sensitivities = table;
 
 for i = 1:num

@@ -20,32 +20,36 @@ function stats = iterSensitivity(mt,P,T,span,S_sens,ban_length)
     scores_sens = zeros(resolution, 3);
     % Compute scores over all varied parameters
     for i = 1:resolution
-       scores_sens(i,1) = getScore(mass(i),power_base,thrust_base, span,S_sens,ban_length)/top_score; 
+       scores_sens(i,1) = getScore(mass(i),power_base,thrust_base, span,S_sens,ban_length)/top_score;
     end
     for i = 1:resolution
        scores_sens(i,2) = getScore(mass_base,power(i),thrust_base, span,S_sens,ban_length)/top_score; 
     end
     for i = 1:resolution
        scores_sens(i,3) = getScore(mass_base,power_base,thrust(i), span,S_sens,ban_length)/top_score ; 
-    end
-    
-    %stats     
-    %calculate stats for each varied parameter and package
-    stats.massMax = max(scores_sens(1,:)); 
-    stats.massMean = mean(scores_sens(1,:));
-    stats.massStd = std(scores_sens(1,:));
-    stats.massVar = var(scores_sens(1,:));
-    
-    stats.powerMax = max(scores_sens(2,:)); 
-    stats.powerMean = mean(scores_sens(2,:));
-    stats.powerStd = std(scores_sens(2,:));
-    stats.powerVar = var(scores_sens(2,:));
+    end   
+%        check1 = isnan(scores_sens(i,1)); %returns 1 if NaN, 0 otherwise
+%        check2 = isnan(scores_sens(i,2)); 
+%        check3 = isnan(scores_sens(i,3)); 
+       
 
-    stats.thrustMax = max(scores_sens(3,:)); 
-    stats.thrustMean = mean(scores_sens(3,:));
-    stats.thrustStd = std(scores_sens(3,:));
-    stats.thrustVar = var(scores_sens(3,:));
 
+        %stats     
+        %calculate stats for each varied parameter and package
+        stats.massMax = max(scores_sens(1,:)); 
+        stats.massMean = mean(scores_sens(1,:));
+        stats.massStd = std(scores_sens(1,:));
+        stats.massVar = var(scores_sens(1,:));
+
+        stats.powerMax = max(scores_sens(2,:)); 
+        stats.powerMean = mean(scores_sens(2,:));
+        stats.powerStd = std(scores_sens(2,:));
+        stats.powerVar = var(scores_sens(2,:));
+
+        stats.thrustMax = max(scores_sens(3,:)); 
+        stats.thrustMean = mean(scores_sens(3,:));
+        stats.thrustStd = std(scores_sens(3,:));
+        stats.thrustVar = var(scores_sens(3,:));
 %     %Plotting
 %     plot(range,scores);
 %     figure(1); hold on;

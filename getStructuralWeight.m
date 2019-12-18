@@ -26,8 +26,8 @@ function mass_struct = getStructuralWeight(d, l, b, c)
 
 scale = 3000; %scale mass of plane (implemented with probability distribution
 
-refFus = 141.02;
-refWing = 316.66;
+refFus = 300; %141.02;
+refWing = 350; %316.66;
 refD = mean([108,120]);
 refL = 1050;
 refB = 1500;

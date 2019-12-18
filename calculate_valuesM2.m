@@ -30,7 +30,7 @@ I_pack = p.I_pack; %current draw of pack in Amps; 10/60 = mission time in hours
 %voltage = 9; %total battery voltage; Venom Lipo
 %I = 42; %current in amps; Venom Lipo
 m_mot = p.m_mot; %upper limit for motor weight in kg; fixed
-m_prop = 1.2*(m_mot + 1.560); %((mu_bat*P)/(nom_volt*I_pack*eta)); %total propulsion system mass
+m_prop = 1.5; %1.2*(m_mot + 1.560); %((mu_bat*P)/(nom_volt*I_pack*eta)); %total propulsion system mass
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% takeoff %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
