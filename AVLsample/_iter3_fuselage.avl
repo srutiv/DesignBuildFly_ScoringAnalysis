@@ -101,9 +101,71 @@ rudder   1.0    0.5     0.0 0.0 1.0  1.0
 #-------------------------------------------------------------
 SECTION
 #Xle    Yle    Zle     Chord   Ainc  Nspanwise  Sspace
-0.244    0.     0.338    0.063    0.    0          0
+0.244    0.     0.338     0.063    0.    0          0
 
 #Cname   Cgain  Xhinge  HingeVec     SgnDup
 CONTROL
 rudder   1.0    0.5     0.0 0.0 1.0  1.0
+#
+#====================================================================
+SURFACE
+Fus_Wall
+#Nchordwise  Cspace   Nspanwise   Sspace
+ 6           1.0      6           1.0
+#
+YDUPLICATE
+0.0
+#
+TRANSLATE
+-0.0254 0.0 0.0
+#
+#-------------------------------------------------------------
+SECTION
+#Xle    Yle    Zle     Chord   Ainc  Nspanwise  Sspace
+0.0     0.0508    0.0     0.381     0.    0          0
+#-------------------------------------------------------------
+SECTION
+#Xle    Yle    Zle     Chord   Ainc  Nspanwise  Sspace
+0       0.0508   -0.1016     0.381    0.    0          0
+#
+#====================================================================
+SURFACE
+Fus_BOT
+#Nchordwise  Cspace   Nspanwise   Sspace
+ 6           1.0      6           1.0
+#
+YDUPLICATE
+0.0
+#
+TRANSLATE
+-0.0254 0.0 0.0
+#
+#-------------------------------------------------------------
+SECTION
+#Xle    Yle    Zle     Chord   Ainc  Nspanwise  Sspace
+0.0     0    -0.1016     0.381     0.    0          0
+#-------------------------------------------------------------
+SECTION
+#Xle    Yle    Zle     Chord   Ainc  Nspanwise  Sspace
+0       0.0508   -0.1016     0.381    0.    0          0
+#
+SURFACE
+Fus_TOP
+#Nchordwise  Cspace   Nspanwise   Sspace
+ 6           1.0      6           1.0
+#
+YDUPLICATE
+0.0
+#
+TRANSLATE
+-0.0254 0.0 0.0
+#
+#-------------------------------------------------------------
+SECTION
+#Xle    Yle    Zle     Chord   Ainc  Nspanwise  Sspace
+0.0     0    0     0.381     0.    0          0
+#-------------------------------------------------------------
+SECTION
+#Xle    Yle    Zle     Chord   Ainc  Nspanwise  Sspace
+0       0.0508   0     0.381    0.    0          0
 #-------------------------------------------------------------
