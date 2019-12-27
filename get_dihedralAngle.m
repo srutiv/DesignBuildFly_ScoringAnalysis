@@ -1,6 +1,6 @@
-dihedral_angle(b,cr,airfoil,g,d,m,v,range)
+dihedral_angle(wingSpan,wingArea,rootChord,tipChord, wingTaper, airfoil,g,d,mass,v,range)
 
-function [gamma,feature] = dihedral_angle(wingSpan,wingArea,rootChord,tipChord, wingTaper, airfoil,g,d,mass,v,range)
+function [maxgamma,maxfeature] = dihedral_angle(wingSpan,wingArea,rootChord,tipChord, wingTaper, airfoil,g,d,mass,v,range)
     % Iterating taper ratios to find best e %
     wingAirfoil = strcat(airfoil,'.dat'); % must include the file extension
     
@@ -34,10 +34,8 @@ function [gamma,feature] = dihedral_angle(wingSpan,wingArea,rootChord,tipChord, 
     rowsToDelete = find(features(:,2)==0); % find them!
     features(rowsToDelete,:) = []; % clean them up
 
-    % Find the max e value and the corresponding lambda value
+    % Find the max feature value and the corresponding gamma value
     maxfeature = max(features(:,2));
-    tapmaxs = features((features(:,2)==maxfeature),1);
-    tapmax = tapmaxs(fix(length(tapmaxs)/2)+1); % there might be multiple taper ratios that give the same feature
-    obj.tap = tapmax;
-    obj. = maxgamma;
+    maxgammamas = features((features(:,2)==maxfeature),1);
+    maxgamma= maxgammamas(fix(length(maxgammamas)/2)+1); % there might be multiple dihedral angle (gamma) that give the same feature
 end
