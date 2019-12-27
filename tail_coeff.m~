@@ -8,9 +8,9 @@ l_v = 0.5*b_w; %input('Input distance between aerodynamic center of wing and ver
 l_h = 0.5*b_w;%input('Input distance between aerodynamic center of wing and horizontal tail: ');
 downwash = 0.22; %assuming 13 deg downwash
 tap_h = 0.5;
-tap_v = 0.6;
+tap_v = 0.5;
 AR_h = 2.8;
-AR_v = 1.5;
+AR_v = 2.;
 eta = 0.9; %assuming high effectiveness
 SM = 0.15; %15%
 a0h = 2*pi; %lfit curve slope of hstab; assuming small aoa
@@ -57,7 +57,7 @@ fprintf('Span of vertical tail is %f \n',V_span)
 %fprintf('Average chord length of vertical stabilizer is %f \n',V_stab_chord)
 fprintf('root chord of vstab (w/o rudder) %f \n',V_stab_rootchord)
 fprintf('tip chord of vstab (w/o rudder) %f \n',V_stab_tipchord)
-fprintf('rudder chord %f \n',Rud_chord)
+fprintf('Average chord length of rudder surface is %f \n',Rud_chord)
 
 fprintf('\n')
 fprintf('Area of horizontal  tail is %f \n',S_h)
@@ -65,7 +65,7 @@ fprintf('Span of horizontal tail is %f \n',H_span)
 %fprintf('Average chord length of horizontal stabilizer is %f \n',H_stab_chord)
 fprintf('root chord of hstab (w/o elevator) %f \n',H_stab_rootchord)
 fprintf('tip chord of hstab (w/o elevator) %f \n',H_stab_tipchord)
-fprintf('elevator chord %f \n',Elev_chord)
+fprintf('Average chord length of elevator surface is %f \n',Elev_chord)
 fprintf('\n')
 
 fprintf('nuetral point distance in front of CL %f \n',xnp)
