@@ -6,7 +6,7 @@ Plane Iter3
 #Sref    Cref    Bref
  0.44     0.29   1.5
 #Xref    Yref    Zref
-0.0615     0.0     0.0508
+0.154     0.0     0.0508
 #
 #
 #====================================================================
@@ -20,6 +20,9 @@ YDUPLICATE
 #
 ANGLE
 0.0
+#
+TRANSLATE
+0.125 0.0 0.0
 #-------------------------------------------------------------
 SECTION
 #Xle    Yle    Zle     Chord   Ainc  Nspanwise  Sspace
@@ -64,7 +67,7 @@ YDUPLICATE
 0.0
 #
 TRANSLATE
-0.75 0.0 0.0
+0.875 0.0 0.0
 #
 #-------------------------------------------------------------
 SECTION
@@ -89,7 +92,7 @@ V-stab
 #Nchordwise  Cspace    Nspanwise  Sspace
 6            1.0       5          1.0
 TRANSLATE 
-0.75 0.0 0.0
+0.875 0.0 0.0
 #-------------------------------------------------------------
 SECTION
 #Xle    Yle    Zle     Chord   Ainc  Nspanwise  Sspace
