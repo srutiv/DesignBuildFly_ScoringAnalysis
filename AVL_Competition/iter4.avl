@@ -6,7 +6,7 @@ Plane Iter3
 #Sref    Cref    Bref
  0.44     0.29   1.5
 #Xref    Yref    Zref
-0.318     0.0     0.0508
+0.318     0.0    0.0508
 #
 #
 #====================================================================
@@ -67,12 +67,12 @@ YDUPLICATE
 0.0
 #
 TRANSLATE
-0.875 0.0 0.0
+0.96828032 0.0 0.0
 #
 #-------------------------------------------------------------
 SECTION
 #Xle    Yle    Zle     Chord   Ainc  Nspanwise  Sspace
-0.0     0.0    0.0     0.307     0.    0          0
+0.0     0.0    0.0     0.212132     0.    0          0
 
 #Cname   Cgain  Xhinge  HingeVec     SgnDup
 CONTROL
@@ -80,7 +80,7 @@ elevator 1.0    0.75     0.0 1.0 0.0  1.0
 #-------------------------------------------------------------
 SECTION
 #Xle    Yle    Zle     Chord   Ainc  Nspanwise  Sspace
-0       0.2   0.0     0.307    0.    0          0
+0.101066   0.282984   0.0     0.111066    0.    0          0
 
 #Cname   Cgain  Xhinge  HingeVec     SgnDup
 CONTROL
@@ -92,11 +92,11 @@ V-stab
 #Nchordwise  Cspace    Nspanwise  Sspace
 6            1.0       5          1.0
 TRANSLATE 
-0.875 0.0 0.0
+0.96828032 0.0 0.0
 #-------------------------------------------------------------
 SECTION
 #Xle    Yle    Zle     Chord   Ainc  Nspanwise  Sspace
-0.0     0.     0.0     0.307     0.    0          0
+0.0     0.     0.0     0.212132     0.    0          0
 
 #Cname   Cgain  Xhinge  HingeVec     SgnDup
 CONTROL
@@ -104,7 +104,7 @@ rudder   1.0    0.5     0.0 0.0 1.0  1.0
 #-------------------------------------------------------------
 SECTION
 #Xle    Yle    Zle     Chord   Ainc  Nspanwise  Sspace
-0.244    0.     0.338    0.063    0.    0          0
+0.080853    0.     0.229783    0.131279    0.    0          0
 
 #Cname   Cgain  Xhinge  HingeVec     SgnDup
 CONTROL
